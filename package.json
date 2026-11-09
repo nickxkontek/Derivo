@@ -1,0 +1,23 @@
+{
+  "name": "derivo",
+  "productName": "Derivo",
+  "version": "1.0.0",
+  "description": "A word processor for math notes: type equations quickly with autocomplete, save notes, and export PDFs.",
+  "author": "Nick Kontek",
+  "license": "UNLICENSED",
+  "private": true,
+  "homepage": "https://nickxkontek.github.io/Derivo/",
+  "main": "desktop/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win --config electron-builder.config.js --publish never",
+    "release": "electron-builder --win --config electron-builder.config.js --publish always"
+  },
+  "dependencies": {
+    "electron-updater": "^6.6.0"
+  },
+  "devDependencies": {
+    "electron": "^45.0.0",
+    "electron-builder": "^26.0.0"
+  }
+}

@@ -1,0 +1,130 @@
+:root{
+  --accent:#2b579a; --accent-dark:#1f4278; --bg:#e6e8eb; --line:#d3d7dd;
+  --text:#1f2328; --muted:#5f6670; --chip:#eef3fb;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;color:var(--text);background:var(--bg);font-size:13px}
+button,select,input{font-family:inherit}
+.app{display:flex;flex-direction:column;height:100vh}
+
+/* ---------- Title bar ---------- */
+.titlebar{background:var(--accent);color:#fff;display:flex;align-items:center;gap:10px;padding:6px 12px;flex-wrap:wrap}
+.logo{font-weight:600;font-size:15px;display:flex;align-items:center;gap:7px;white-space:nowrap}
+.logo .sig{font-family:Cambria,Georgia,serif;font-size:20px;line-height:1;background:#fff;color:var(--accent);border-radius:4px;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center}
+#docTitle{background:transparent;border:1px solid transparent;color:#fff;font-size:14px;padding:3px 7px;border-radius:4px;width:260px}
+#docTitle:hover,#docTitle:focus{border-color:rgba(255,255,255,.55);background:rgba(255,255,255,.12);outline:none}
+#saveState{font-size:12px;opacity:.85;white-space:nowrap}
+.titlebar .spacer{flex:1}
+.fbtn{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.28);border-radius:4px;padding:4px 10px;cursor:pointer;font-size:12.5px;white-space:nowrap}
+.fbtn:hover{background:rgba(255,255,255,.24)}
+.fbtn.strong{background:#fff;color:var(--accent);border-color:#fff;font-weight:600}
+.fbtn.strong:hover{background:#e8eef8}
+
+/* ---------- Toolbar ---------- */
+.toolbar{background:#f7f8fa;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;align-items:center;gap:2px;padding:5px 6px}
+.group{display:flex;align-items:center;gap:2px;padding:0 6px;border-right:1px solid var(--line)}
+.group:last-child{border-right:0}
+.tb{min-width:30px;height:30px;border:1px solid transparent;background:transparent;border-radius:4px;cursor:pointer;color:var(--text);padding:0 6px;display:inline-flex;align-items:center;justify-content:center;gap:5px;font-size:13px}
+.tb:hover{background:#e2e6eb;border-color:#cdd3da}
+.tb.active{background:#d4e1f4;border-color:#9db5da}
+.tb svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tb.math{background:var(--chip);border-color:#c5d4ec;font-weight:600;color:var(--accent-dark)}
+.tb.math:hover{background:#dde8f8}
+.tb .m{font-family:Cambria,Georgia,serif;font-style:italic;font-size:15px}
+select.tbs{height:28px;border:1px solid #cdd3da;border-radius:4px;background:#fff;padding:0 4px;font-size:12.5px;color:var(--text)}
+.colorbtn{position:relative}
+.colorbtn input{position:absolute;opacity:0;inset:0;width:100%;height:100%;cursor:pointer}
+.colorbar{display:block;height:3px;width:16px;margin-top:1px;border-radius:1px}
+
+/* ---------- Workspace ---------- */
+.main{flex:1;display:flex;min-height:0}
+.workspace{flex:1;overflow:auto;padding:26px 16px 80px}
+.page{width:8.5in;min-height:11in;margin:0 auto;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.14),0 6px 20px rgba(0,0,0,.07);padding:1in;cursor:text}
+#editor{outline:none;font-family:Cambria,Georgia,"Times New Roman",serif;font-size:12pt;line-height:1.5;min-height:9in;word-wrap:break-word}
+#editor.is-empty::before{content:attr(data-placeholder);color:#9aa1aa;position:absolute;pointer-events:none;font-style:italic}
+#editor p{margin:0 0 .45em}
+#editor h1{font-size:20pt;margin:.5em 0 .3em;color:#1f3a63;font-weight:600}
+#editor h2{font-size:16pt;margin:.6em 0 .3em;color:#2b579a;font-weight:600}
+#editor h3{font-size:13pt;margin:.6em 0 .25em;color:#2b579a;font-weight:600}
+#editor blockquote{margin:.4em 0 .6em;padding:.2em 0 .2em 1em;border-left:3px solid #c9d3e2;color:#3b4350}
+#editor ul,#editor ol{margin:.2em 0 .5em;padding-left:1.6em}
+#editor hr{border:0;border-top:1px solid #b9c0ca;margin:1em 0}
+#editor table{border-collapse:collapse;margin:.5em 0 .8em;width:100%}
+#editor td,#editor th{border:1px solid #9ea6b1;padding:4px 8px;vertical-align:top;min-width:40px}
+.box{border:1px solid #c9d3e2;border-left:4px solid #2b579a;background:#f6f9fd;border-radius:3px;padding:.5em .9em;margin:.5em 0 .8em}
+.box p:last-child{margin-bottom:0}
+.box-definition{border-left-color:#2b8a3e;background:#f3faf5;border-color:#cde6d4}
+.box-theorem{border-left-color:#2b579a;background:#f4f7fc}
+.box-example{border-left-color:#c77700;background:#fff9f0;border-color:#efdcbf}
+.box-note{border-left-color:#7a4cc2;background:#f8f5fd;border-color:#ddd1f0}
+.page-break{height:22px;margin:.6em 0;border-top:1px dashed #a9b1bc;text-align:center;font:11px "Segoe UI",sans-serif;color:#8a929c;user-select:none}
+.page-break::after{content:"page break";position:relative;top:-9px;background:#fff;padding:0 8px}
+
+/* ---------- Math ---------- */
+.math-inline{display:inline-block;vertical-align:baseline}
+.math-block{display:block;text-align:center;margin:.45em 0 .65em;padding:2px 0}
+.math-inline .mf-host,.math-block .mf-host{padding:0 1px}
+.math-inline:hover .mf-host,.math-block:hover .mf-host{background:#f3f6fb}
+.editing .mf-host,.editing:hover .mf-host{background:#eaf1fd!important;box-shadow:0 0 0 1px #a9c4f2}
+.mf-empty .mf-host{outline:1px dashed #a9b6c8;min-width:1em}
+/* when a file is opened without the engine, show raw LaTeX */
+.math-inline:not(:has(.mf)),.math-block:not(:has(.mf)){font-family:Consolas,monospace;font-size:.9em;color:#7a3e9d}
+
+/* ---------- Palette ---------- */
+.palette{width:276px;border-left:1px solid var(--line);background:#fafbfc;overflow:auto;padding:10px 10px 40px;flex-shrink:0}
+.palette.hidden{display:none}
+.palette h4{margin:12px 2px 6px;font-size:11.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);font-weight:600}
+.palette h4:first-of-type{margin-top:2px}
+.ptitle{display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:13px;margin-bottom:6px}
+.ptitle button{border:0;background:none;cursor:pointer;font-size:16px;color:var(--muted)}
+.pgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:3px}
+.pgrid.wide{grid-template-columns:repeat(3,1fr)}
+.pbtn{height:38px;line-height:0;border:1px solid #dfe3e8;background:#fff;border-radius:4px;cursor:pointer;font-family:Cambria,"Cambria Math",Georgia,serif;font-size:16px;color:#1f2328;padding:0 2px;white-space:nowrap;overflow:hidden}
+.pbtn:hover{background:#e9f0fb;border-color:#a9c0e6}
+.pgrid.wide .pbtn{font-size:14px}
+.phint{font-size:11.5px;color:var(--muted);margin:10px 2px 0;line-height:1.45}
+
+/* ---------- Status bar ---------- */
+.statusbar{background:#f2f3f5;border-top:1px solid var(--line);display:flex;align-items:center;gap:14px;padding:3px 12px;font-size:12px;color:var(--muted);min-height:26px}
+.statusbar .hint{flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.statusbar .hint b{color:var(--accent-dark)}
+.statusbar select{height:22px;font-size:12px;border:1px solid #cdd3da;border-radius:3px;background:#fff}
+.banner{background:#fff4e5;color:#7a4b00;border-bottom:1px solid #f0d2a8;padding:6px 14px;font-size:12.5px;display:none}
+
+/* ---------- Modal & toast ---------- */
+.modal{position:fixed;inset:0;background:rgba(20,28,40,.45);display:none;align-items:center;justify-content:center;z-index:50}
+.modal.open{display:flex}
+.dialog{background:#fff;border-radius:8px;width:min(860px,94vw);max-height:88vh;overflow:auto;box-shadow:0 12px 40px rgba(0,0,0,.25);padding:20px 26px 24px}
+.dialog h2{margin:0 0 4px;font-size:19px;color:var(--accent-dark)}
+.dialog h3{font-size:14px;margin:18px 0 6px;color:var(--accent)}
+.dialog p{margin:4px 0;line-height:1.5}
+.dialog .close{float:right;border:0;background:#eef1f5;border-radius:4px;padding:4px 10px;cursor:pointer}
+.kgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px 26px}
+.krow{display:flex;justify-content:space-between;gap:10px;padding:3px 0;border-bottom:1px solid #f0f2f5}
+kbd{background:#f3f5f8;border:1px solid #d5dae1;border-bottom-width:2px;border-radius:3px;padding:0 5px;font:12px Consolas,monospace;white-space:nowrap}
+.scgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px 16px}
+.sc{display:flex;justify-content:space-between;gap:6px;padding:2px 0;border-bottom:1px solid #f0f2f5;font-size:12.5px}
+.sc span:last-child{font-size:15px;line-height:0}
+.settings label{display:flex;align-items:center;gap:8px;margin:6px 0}
+.toast{position:fixed;left:50%;bottom:44px;transform:translateX(-50%);background:#263241;color:#fff;padding:9px 16px;border-radius:6px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:60;max-width:80vw;text-align:center}
+.toast.show{opacity:1}
+
+/* ---------- Printing / PDF ---------- */
+@page{size:letter;margin:0.9in}
+@media print{
+  html,body{height:auto;background:#fff}
+  .titlebar,.toolbar,.palette,.statusbar,.banner,.modal,.toast{display:none!important}
+  .app,.main{display:block;height:auto}
+  .workspace{overflow:visible;padding:0}
+  .page{width:auto;min-height:0;box-shadow:none;padding:0;margin:0;zoom:1!important}
+  #editor{min-height:0}
+  #editor.is-empty::before{content:none}
+  .page-break{height:0;margin:0;border:0;break-after:page;page-break-after:always}
+  .page-break::after{content:none}
+  .mf-host,.editing .mf-host,.math-inline:hover .mf-host{background:transparent!important;box-shadow:none!important;outline:none!important}
+  .mf-empty,.empty{display:none}
+  .box,#editor h1,#editor h2,#editor h3,.math-block,#editor tr{break-inside:avoid}
+  #editor h1,#editor h2,#editor h3{break-after:avoid}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}

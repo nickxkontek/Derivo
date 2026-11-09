@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Derivo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="A word processor for math notes: type equations quickly with autocomplete, save notes, and export PDFs.">
+<meta name="theme-color" content="#2b579a">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<div class="app">
+  <div class="titlebar">
+    <div class="logo"><span class="sig">∂</span>Derivo</div>
+    <input id="docTitle" value="Untitled notes" spellcheck="false" title="Document name">
+    <span id="saveState">Not saved yet</span>
+    <span class="spacer"></span>
+    <button class="fbtn" data-act="new" title="New document (Ctrl+Alt+N)">New</button>
+    <button class="fbtn" data-act="open" title="Open a Derivo document (Ctrl+O)">Open</button>
+    <button class="fbtn" data-act="save" title="Save (Ctrl+S)">Save</button>
+    <button class="fbtn" data-act="saveas" title="Save as a new file (Ctrl+Shift+S)">Save As</button>
+    <button class="fbtn strong" data-act="pdf" title="Export to PDF (Ctrl+P)">Export PDF</button>
+    <button class="fbtn" data-act="help" title="Shortcuts &amp; help (F1)">Help</button>
+  </div>
+
+  <div class="toolbar" id="toolbar">
+    <div class="group">
+      <button class="tb" data-cmd="undo" title="Undo (Ctrl+Z)"><svg viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg></button>
+      <button class="tb" data-cmd="redo" title="Redo (Ctrl+Y)"><svg viewBox="0 0 24 24"><path d="m15 14 5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/></svg></button>
+    </div>
+    <div class="group">
+      <select class="tbs" id="styleSel" title="Paragraph style" style="width:96px">
+        <option value="p">Normal</option>
+        <option value="h1">Heading 1</option>
+        <option value="h2">Heading 2</option>
+        <option value="h3">Heading 3</option>
+        <option value="blockquote">Quote</option>
+      </select>
+      <select class="tbs" id="fontSel" title="Font" style="width:118px">
+        <option>Cambria</option><option>Calibri</option><option>Times New Roman</option>
+        <option>Georgia</option><option>Arial</option><option>Segoe UI</option><option>Consolas</option>
+      </select>
+      <select class="tbs" id="sizeSel" title="Font size">
+        <option>8</option><option>9</option><option>10</option><option>11</option><option selected>12</option>
+        <option>14</option><option>16</option><option>18</option><option>20</option><option>24</option><option>28</option><option>36</option>
+      </select>
+    </div>
+    <div class="group">
+      <button class="tb" data-cmd="bold" title="Bold (Ctrl+B)"><b>B</b></button>
+      <button class="tb" data-cmd="italic" title="Italic (Ctrl+I)"><i style="font-family:Georgia,serif">I</i></button>
+      <button class="tb" data-cmd="underline" title="Underline (Ctrl+U)"><u>U</u></button>
+      <button class="tb" data-cmd="strikeThrough" title="Strikethrough"><s>S</s></button>
+      <button class="tb" data-cmd="superscript" title="Superscript text (Ctrl+Shift+=)">x<sup>2</sup></button>
+      <button class="tb" data-cmd="subscript" title="Subscript text (Ctrl+=)">x<sub>2</sub></button>
+      <span class="tb colorbtn" title="Text colour"><span style="display:flex;flex-direction:column;align-items:center"><b style="font-size:13px">A</b><span class="colorbar" id="fgBar" style="background:#c00000"></span></span><input type="color" id="fgColor" value="#c00000"></span>
+      <span class="tb colorbtn" title="Highlight"><span style="display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 24 24" style="width:15px;height:15px"><path d="m9 11-6 6v3h3l6-6"/><path d="m22 4-8.5 8.5-4-4L18 0"/></svg><span class="colorbar" id="hlBar" style="background:#fff200"></span></span><input type="color" id="hlColor" value="#fff200"></span>
+      <button class="tb" data-cmd="removeFormat" title="Clear formatting"><svg viewBox="0 0 24 24"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/><path d="m3 3 18 18"/></svg></button>
+    </div>
+    <div class="group">
+      <button class="tb" data-cmd="insertUnorderedList" title="Bulleted list (Ctrl+Shift+L)"><svg viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></svg></button>
+      <button class="tb" data-cmd="insertOrderedList" title="Numbered list"><svg viewBox="0 0 24 24"><path d="M10 6h10M10 12h10M10 18h10"/><path d="M4 4h1v4M4 8h2"/><path d="M4 14.5a1 1 0 0 1 2 .5l-2 3h2"/></svg></button>
+      <button class="tb" data-cmd="outdent" title="Decrease indent"><svg viewBox="0 0 24 24"><path d="M21 5H11M21 12H11M21 19H11"/><path d="m7 8-4 4 4 4"/></svg></button>
+      <button class="tb" data-cmd="indent" title="Increase indent"><svg viewBox="0 0 24 24"><path d="M21 5H11M21 12H11M21 19H11"/><path d="m3 8 4 4-4 4"/></svg></button>
+    </div>
+    <div class="group">
+      <button class="tb" data-cmd="justifyLeft" title="Align left (Ctrl+L)"><svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h12M3 18h16"/></svg></button>
+      <button class="tb" data-cmd="justifyCenter" title="Center (Ctrl+E)"><svg viewBox="0 0 24 24"><path d="M3 6h18M6 12h12M4 18h16"/></svg></button>
+      <button class="tb" data-cmd="justifyRight" title="Align right (Ctrl+R)"><svg viewBox="0 0 24 24"><path d="M3 6h18M9 12h12M5 18h16"/></svg></button>
+      <button class="tb" data-cmd="justifyFull" title="Justify (Ctrl+J)"><svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+    </div>
+    <div class="group">
+      <button class="tb math" data-act="math" title="Insert inline math (Ctrl+M, or type $)"><span class="m">x²</span> Math</button>
+      <button class="tb math" data-act="display" title="Insert a centered equation on its own line (Ctrl+Shift+M)"><span class="m">∫</span> Equation</button>
+      <button class="tb" data-act="palette" id="paletteBtn" title="Show/hide the symbol panel"><span class="m" style="font-style:normal">Ω</span> Symbols</button>
+    </div>
+    <div class="group">
+      <select class="tbs" id="insertSel" title="Insert" style="width:84px">
+        <option value="">Insert…</option>
+        <option value="definition">Definition box</option>
+        <option value="theorem">Theorem box</option>
+        <option value="example">Example box</option>
+        <option value="note">Note box</option>
+        <option value="table">Table…</option>
+        <option value="hr">Horizontal line</option>
+        <option value="pagebreak">Page break (Ctrl+Enter)</option>
+      </select>
+    </div>
+  </div>
+  <div class="banner" id="banner"></div>
+
+  <div class="main">
+    <div class="workspace" id="workspace">
+      <div class="page" id="page">
+        <div id="editor" contenteditable="true" spellcheck="true" data-placeholder="Start typing your notes… Press Ctrl+M (or type $) to write math."></div>
+      </div>
+    </div>
+    <aside class="palette" id="palette">
+      <div class="ptitle">Symbols <button data-act="palette" title="Hide">×</button></div>
+      <div id="paletteBody"></div>
+      <p class="phint">Click to insert. Hover to see what to type instead. Inside math, <kbd>Tab</kbd> jumps to the next empty box.</p>
+    </aside>
+  </div>
+
+  <div class="statusbar">
+    <span id="counts">0 words</span>
+    <span class="hint" id="hint">Ctrl+M or $ for math · Ctrl+Shift+M for a centered equation · F1 for all shortcuts</span>
+    <label>Zoom <select id="zoomSel"><option value="0.75">75%</option><option value="0.9">90%</option><option value="1" selected>100%</option><option value="1.1">110%</option><option value="1.25">125%</option><option value="1.5">150%</option><option value="2">200%</option></select></label>
+  </div>
+</div>
+
+<div class="modal" id="helpModal">
+  <div class="dialog">
+    <button class="close" data-act="closehelp">Close</button>
+    <h2>Derivo — shortcuts</h2>
+    <p>Write text like in Word. Jump into math with <kbd>Ctrl</kbd>+<kbd>M</kbd> or by typing <kbd>$</kbd>. Leave math with <kbd>Enter</kbd>, <kbd>Esc</kbd>, <kbd>$</kbd> or the right arrow.</p>
+    <h3>Math editing</h3>
+    <div class="kgrid">
+      <div class="krow"><span>Inline math</span><span><kbd>Ctrl+M</kbd> or <kbd>$</kbd></span></div>
+      <div class="krow"><span>Centered equation (own line)</span><kbd>Ctrl+Shift+M</kbd></div>
+      <div class="krow"><span>Leave math</span><span><kbd>Enter</kbd> / <kbd>Esc</kbd> / <kbd>→</kbd> at end</span></div>
+      <div class="krow"><span>Fraction</span><span>type <kbd>/</kbd> (e.g. <kbd>1/2</kbd>)</span></div>
+      <div class="krow"><span>Power / superscript</span><kbd>^</kbd></div>
+      <div class="krow"><span>Subscript / lower limit</span><kbd>_</kbd></div>
+      <div class="krow"><span>Next box (limits, denominator…)</span><kbd>Tab</kbd></div>
+      <div class="krow"><span>Move between top and bottom</span><span><kbd>↑</kbd> <kbd>↓</kbd></span></div>
+      <div class="krow"><span>Any symbol by name, with suggestions</span><span>type <kbd>\</kbd> then the name</span></div>
+      <div class="krow"><span>Words inside math</span><span>type <kbd>"</kbd> … <kbd>"</kbd></span></div>
+      <div class="krow"><span>Undo an autocorrect (e.g. inf → ∞)</span><span><kbd>Backspace</kbd> right after</span></div>
+      <div class="krow"><span>Space inside math</span><kbd>Shift+Space</kbd></div>
+      <div class="krow"><span>Matrix: new row / new column</span><span><kbd>Shift+Enter</kbd> / <kbd>&amp;</kbd></span></div>
+      <div class="krow"><span>Select inside math</span><span><kbd>Shift+←/→</kbd>, drag, <kbd>Ctrl+A</kbd></span></div>
+    </div>
+    <h3>Autocomplete — type these inside math</h3>
+    <p style="color:#5f6670">They turn into the symbol as soon as you finish the word. While typing, a list of suggestions pops up — press <kbd>Tab</kbd> to take one. Brackets <kbd>( [ { |</kbd> grow to fit what's inside.</p>
+    <div class="scgrid" id="scList"></div>
+    <h3>Document</h3>
+    <div class="kgrid">
+      <div class="krow"><span>Save / Save as</span><span><kbd>Ctrl+S</kbd> / <kbd>Ctrl+Shift+S</kbd></span></div>
+      <div class="krow"><span>Open</span><kbd>Ctrl+O</kbd></div>
+      <div class="krow"><span>New document</span><kbd>Ctrl+Alt+N</kbd></div>
+      <div class="krow"><span>Export PDF</span><kbd>Ctrl+P</kbd></div>
+      <div class="krow"><span>Heading 1 / 2 / 3</span><kbd>Ctrl+Alt+1 / 2 / 3</kbd></div>
+      <div class="krow"><span>Normal text</span><kbd>Ctrl+Alt+0</kbd></div>
+      <div class="krow"><span>Bold / Italic / Underline</span><kbd>Ctrl+B / I / U</kbd></div>
+      <div class="krow"><span>Bulleted list</span><kbd>Ctrl+Shift+L</kbd></div>
+      <div class="krow"><span>Align left / center / right / justify</span><kbd>Ctrl+L / E / R / J</kbd></div>
+      <div class="krow"><span>Page break</span><kbd>Ctrl+Enter</kbd></div>
+      <div class="krow"><span>Indent list item / next table cell</span><span><kbd>Tab</kbd> / <kbd>Shift+Tab</kbd></span></div>
+      <div class="krow"><span>This help</span><span><kbd>F1</kbd> or <kbd>Ctrl+/</kbd></span></div>
+    </div>
+    <h3>Saving &amp; PDF</h3>
+    <p><b>Save</b> makes a <code>.derivo</code> file you can reopen and keep editing. Your work is also auto-saved, so it comes back if you close the window.</p>
+    <p><b>Export PDF</b> opens the print window: set <b>Destination</b> to <b>Save as PDF</b>. Under “More settings”, untick <b>Headers and footers</b> for a clean page. Equations are saved as sharp vector graphics.</p>
+    <p><b>Pasting:</b> text with <code>$…$</code> or <code>$$…$$</code> (like notes from an AI chat) turns into real math automatically. Copying math out gives LaTeX.</p>
+    <h3>Settings</h3>
+    <div class="settings">
+      <label><input type="checkbox" id="setDollar"> Typing <kbd>$</kbd> starts math (turn off if you write prices often — Ctrl+M still works)</label>
+    </div>
+    <p style="color:#8a929c;margin-top:16px" id="aboutLine"></p>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<input type="file" id="fileInput" accept=".derivo,.mathnote,.json" style="display:none">
+
+<script src="js/math-engine.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
